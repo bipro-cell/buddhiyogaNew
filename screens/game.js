@@ -6,7 +6,8 @@ import {
   Animated,
   Button,
   Easing,
-  Text
+  Text,
+  TextInput,
 } from 'react-native';
 import { TouchableOpacity } from 'react-native';
 import {useAnimatedGestureHandler, useAnimatedStyle, useSharedValue} from 'react-native-reanimated';
@@ -27,6 +28,7 @@ const game= ({navigation}) => {
 
   const diceFace = useRef(Dice7);
   const diceFaceFrame = useRef(null);
+  const cellInfoNow=useRef(null);
 
   // const [, updateState]=useState();
   
@@ -420,6 +422,7 @@ var i=1;
 const getPosts=(e)=>{
   let Xdiff;
   let postsid;
+  let qoute;
   let x=e.nativeEvent.x;
   let y=e.nativeEvent.y;
   // console.log(e.nativeEvent);
@@ -432,11 +435,14 @@ const getPosts=(e)=>{
     {
       Xdiff=x1;
       postsid=element.postID;
+      qoute=element.info.quote[0].name;
+
     }
     }
   });
   postIdCurrent.current=postsid;
-changePage();
+  cellInfoNow.current.setNativeProps([{text:qoute}]);
+// changePage();
 }
 
   
@@ -451,6 +457,28 @@ changePage();
         onPress={()=>changePage()}
         ><Text style={{color: '#fff',lineheight: 40,fontWeight: '500', textAlign: 'center',paddingHorizontal:10}}>Get More Info  </Text>
           </TouchableOpacity> */}
+                  {/* <View style={styles.CircleShape} /> */}
+
+        <View style={{
+                        position:'absolute',
+                        top:"10%",
+                        left:"5%",
+                        right:"5%",
+                        width:"90%",height:"10%", backgroundColor:"#F2D997",
+                        borderRadius: 10, shadowOffset: {width: -2, height: 4},  
+                        shadowColor: '#171717',  
+                        shadowOpacity: 0.2,  
+                        shadowRadius: 3,
+                        alignItems:'center',
+                        justifyContent:'center',
+                        paddingTop:"5%"
+                        }} >
+            <TextInput
+        editable={false}
+        ref={cellInfoNow}
+        defaultValue={"Welcome To Buddhiyoga"}
+      />
+          </View>  
 
         <GestureHandlerRootView>
         <TapGestureHandler
@@ -528,6 +556,20 @@ const styles = StyleSheet.create({
     width:"100%",
     height:"90%",
     backgroundColor:'#cfc19f'
+  },
+  CircleShape: {
+    position:'absolute',
+    top:"17%",
+    left:"44%",
+    width: "15%",
+    height: "7.5%",
+    borderRadius: 150 / 2,
+    backgroundColor: '#FF9800',
+    zIndex:1,
+    shadowOffset: {width: -2, height: 4},  
+    shadowColor: '#171717',  
+    shadowOpacity: 0.2,  
+    shadowRadius: 160 / 2,
   },
 
 });
