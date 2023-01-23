@@ -8,6 +8,7 @@ import {
   Image,
   Card,
   ScrollView,
+  Animated,
   TouchableOpacity
 } from 'react-native';
 
@@ -24,12 +25,20 @@ const Posts= (props) => {
 
     const [postList, setPostList] = React.useState([]);
     const [postId,setPostId] = React.useState(props.route.params.postId);
-    
+    const slideUpValue= new Animated.Value(0);    
 
     useEffect(()=>{
          getPosts();
         
+         
+         
     },[postId]);
+    useEffect(()=>{
+         if(postList.length >0){
+          
+        _start();
+         }
+    })
 
 
     handleBackButtonClick= () => {
@@ -47,18 +56,59 @@ const Posts= (props) => {
         let responseJson = await response.json();
         postlist=responseJson;
         setPostList([postlist])
-
+        
         return responseJson;
         } catch (error) {
         console.error(error);
         }
-        
+       
       }    
+      const _start = async () => {
+        console.log("hello")
+        return Animated.parallel([
+          Animated.timing(slideUpValue, {
+    
+            toValue: 1,
+    
+            duration: 500,
+    
+            useNativeDriver: true
+    
+          })
+    
+        ]).start();
+    
+      };
 
     return (<>
        
+       
         {
+            <View style={styles.container}>
+            {
             (postList.length>0) ?( 
+                <Animated.View
+
+                style={{
+      
+                  transform: [
+      
+                    {
+      
+                      translateY: slideUpValue.interpolate({
+      
+                        inputRange: [0, 1],
+      
+                        outputRange: [600, 0]
+      
+                      })
+      
+                    }
+      
+                  ],
+                }}
+      
+              >
                 <SafeAreaView style={styles.cardViewOverAll}>
                     <ScrollView >
                     <TouchableOpacity onPress={()=>handleBackButtonClick()} >
@@ -70,9 +120,14 @@ const Posts= (props) => {
                         <PostsContentComponent content={postList[0].content.rendered} />
                     </ScrollView>
                 </SafeAreaView>
+                 </Animated.View>
             ):(<View style={styles.screen}><Text>
                 Loding ...
             </Text></View>)
+        }
+  
+         
+          </View>
         }
     
     </>);
@@ -103,5 +158,6 @@ const styles = StyleSheet.create({
     }
     }
     );
+
 
 export default Posts;

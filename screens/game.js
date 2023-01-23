@@ -14,16 +14,15 @@ import {
     PanGestureHandler,
     GestureHandlerRootView,TapGestureHandler
 } from 'react-native-gesture-handler';
-import { Link } from '@react-navigation/native';
-
+// import { Link } from '@react-navigation/native';
 
 import Dice7 from "../assets/game/dice/dice7.png";
 
 const game= ({navigation}) => {
   
-  const [running, setRunning] = useState(false);
-  const [diceRollCount, setDiceRollCount] = useState(0);
-  const [currentPoints, setCurrentPoints] = useState(0);
+  // const [running, setRunning] = useState(false);
+  // const [diceRollCount, setDiceRollCount] = useState(0);
+  // const [currentPoints, setCurrentPoints] = useState(0);
   const postIdCurrent =useRef(551);
 
   const diceFace = useRef(Dice7);
@@ -42,7 +41,7 @@ const game= ({navigation}) => {
   });
 
 
-  var diceRolled=0,diceThrowResult=0;
+  // var diceRolled=0,diceThrowResult=0;
 
   var iDisplacement = 0;
   var iSnakeLadderBase = 0;
@@ -51,7 +50,7 @@ const game= ({navigation}) => {
   var iReverseTo = 0;
   var iRoll;
   var iOld_ReverseTo = 0;
-  var postId=0;
+  // var postId=0;
   //Player Variable
   
   var player = {
@@ -72,28 +71,28 @@ const x = useSharedValue(startingPosition);
 const y = useSharedValue(startingPosition);
 
 
-const newPanEvent = useAnimatedGestureHandler({
-  onStart: (event, ctx) => {
-  pan.value = true;
-  ctx.startX = x.value;
-  ctx.startY = y.value;
-  },
-  onActive: (event, ctx) => {
-  x.value = ctx.startX + event.translationX;
-  y.value = ctx.startY + event.translationY;
-  },
-  onEnd: (event, ctx) => {
-  pan.value = false;
-  ctx.startX = x.value;
-  ctx.startY = y.value;
-  },
-});
+// const newPanEvent = useAnimatedGestureHandler({
+//   onStart: (event, ctx) => {
+//   pan.value = true;
+//   ctx.startX = x.value;
+//   ctx.startY = y.value;
+//   },
+//   onActive: (event, ctx) => {
+//   x.value = ctx.startX + event.translationX;
+//   y.value = ctx.startY + event.translationY;
+//   },
+//   onEnd: (event, ctx) => {
+//   pan.value = false;
+//   ctx.startX = x.value;
+//   ctx.startY = y.value;
+//   },
+// });
 
-const animStyle = useAnimatedStyle(() => {
-  return {
-  transform: [{ translateX: x.value }, { translateY: y.value }]
-  };
-});
+// const animStyle = useAnimatedStyle(() => {
+//   return {
+//   transform: [{ translateX: x.value }, { translateY: y.value }]
+//   };
+// });
 
 
 //Start of Dice Variable
@@ -107,10 +106,7 @@ var dice = {
 
 function changePage ()
 {
-console.log(position.x)
-console.log(position.y)
-  // console.log(postIdCurrent.current);
-  // navigation.navigate('Posts',{postId:postIdCurrent.current})
+  navigation.navigate('Posts',{postId:postIdCurrent.current})
 }
 
 
@@ -186,10 +182,12 @@ console.log(position.y)
 
 const initializePawn = ()=>
 {
+  // console.log(playerPositions[68])
     Animated.timing(position,{
       toValue:{x:playerPositions[positionConfig.initCellPos].x,y:playerPositions[positionConfig.initCellPos].y},
       useNativeDriver: true
       }).start()
+      console.log(position)
 }
 
 var i=1;
@@ -378,7 +376,7 @@ var i=1;
 
   const movePawnNextCell=()=>{
     
-
+    // console.log(player)
     Animated.sequence([
     Animated.timing(position,{
       toValue:{x:playerPositions[player.position].x,y:playerPositions[player.position].y},
@@ -424,17 +422,21 @@ const getPosts=(e)=>{
   let postsid;
   let x=e.nativeEvent.x;
   let y=e.nativeEvent.y;
-  console.log(x, y);
+  // console.log(e.nativeEvent);
   playerPositions.forEach(element => {
-    let x1=Math.sqrt(Math.pow(element.posX-x +28,2)+Math.pow(element.posY-y+46,2));
-    console.log(x1);
+    if(element.postID!=551)
+    {
+    let x1=Math.sqrt(Math.pow(element.x-x +28,2)+Math.pow(-360-element.y+y+14,2));
+    // console.log(x1);
     if(Xdiff==undefined || x1 <=Xdiff)
     {
       Xdiff=x1;
       postsid=element.postID;
     }
+    }
   });
-console.log(postsid)
+  postIdCurrent.current=postsid;
+changePage();
 }
 
   
@@ -442,8 +444,6 @@ console.log(postsid)
   return (
     <View style={styles.container} >
     <View style={styles.gameContainer}>
-    {/* <p>{}</p>
-<p>{position.y}</p> */}
     <TouchableOpacity style={{backgroundColor: 'rgba(126,85,52,1)' ,width: 300,
         borderRadius: 10,
         height: 'auto',
@@ -453,14 +453,12 @@ console.log(postsid)
           </TouchableOpacity>
 
         <GestureHandlerRootView>
-        {/* <PanGestureHandler onGestureEvent={newPanEvent}> */}
         <TapGestureHandler
           numberOfTaps={2}
           onActivated={(e) => (
               getPosts(e)
         )}>
           <Image source={require('../assets/game/board.jpg')} style={{width:380,height:380,alignSelf:'center'}} />
-        {/* </PanGestureHandler> */}
         </TapGestureHandler>
         </GestureHandlerRootView>
 
