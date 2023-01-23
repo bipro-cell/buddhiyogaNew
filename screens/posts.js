@@ -25,7 +25,8 @@ const Posts= (props) => {
 
     const [postList, setPostList] = React.useState([]);
     const [postId,setPostId] = React.useState(props.route.params.postId);
-    const slideUpValue= new Animated.Value(0);    
+    const slideUpValue= new Animated.Value(0);
+    const slideDownValue= new Animated.Value(1);    
 
     useEffect(()=>{
          getPosts();
@@ -37,6 +38,7 @@ const Posts= (props) => {
          if(postList.length >0){
           
         _start();
+        _end();
          }
     })
 
@@ -79,12 +81,28 @@ const Posts= (props) => {
         ]).start();
     
       };
+      const _end = async () => {
+        console.log("hello")
+        return Animated.parallel([
+          Animated.timing(slideDownValue, {
+    
+            toValue: 0,
+    
+            duration: 500,
+    
+            useNativeDriver: true
+    
+          })
+    
+        ]).start();
+    
+      };
 
     return (<>
        
        
         {
-            <View style={styles.container}>
+            <View style={{backgroundColor:"#cfc19f"}}>
             {
             (postList.length>0) ?( 
                 <Animated.View
@@ -121,9 +139,34 @@ const Posts= (props) => {
                     </ScrollView>
                 </SafeAreaView>
                  </Animated.View>
-            ):(<View style={styles.screen}><Text>
+            ):(<Animated.View style={{
+      
+              transform: [
+  
+                {
+  
+                  translateY: slideDownValue.interpolate({
+  
+                    inputRange: [0, 1],
+  
+                    outputRange: [600, 1]
+  
+                  })
+  
+                }
+  
+              ],
+              width:"100%",
+              height:"100%"
+            }}>
+              <SafeAreaView style={styles.screen}>
+              <View >
+              <Text>
                 Loding ...
-            </Text></View>)
+            </Text>
+            </View>
+            </SafeAreaView>
+            </Animated.View>)
         }
   
          
@@ -136,13 +179,12 @@ const Posts= (props) => {
 
 const styles = StyleSheet.create({
     screen:{
-        flex:1,
+        
         alignItems:"center",
         justifyContent:'center',
         width:"100%",
         height:"100%",
-        backgroundColor: "#F2D997",
-        opacity:0.5
+        backgroundColor: "#cfc19f"
     },
     cardViewOverAll:{
         width:"100%",

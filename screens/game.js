@@ -444,13 +444,13 @@ changePage();
   return (
     <View style={styles.container} >
     <View style={styles.gameContainer}>
-    <TouchableOpacity style={{backgroundColor: 'rgba(126,85,52,1)' ,width: 300,
+    {/* <TouchableOpacity style={{backgroundColor: 'rgba(126,85,52,1)' ,width: 300,
         borderRadius: 10,
         height: 'auto',
         marginHorizontal: "11%"}}
         onPress={()=>changePage()}
         ><Text style={{color: '#fff',lineheight: 40,fontWeight: '500', textAlign: 'center',paddingHorizontal:10}}>Get More Info  </Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
         <GestureHandlerRootView>
         <TapGestureHandler
