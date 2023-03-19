@@ -460,7 +460,7 @@ setPostID(postsid);
    </View>
 
    <View style={{ position:'absolute',width:"100%", height:"100%",justifyContent:'flex-end'}} >
-   <BlockInformation info={cellInfo}/>        
+   <BlockInformation info={cellInfo}/>         
    </View>
    </>
   );
