@@ -6,7 +6,7 @@ import RenderHtml from 'react-native-render-html';
 
 
 const BlockInformation = ({status,excerpt,quote,postId,navigation}) => {
-    console.log(status);
+    // console.log(status);
     // console.log(postId);
     const [isRotating, setRotation] = useState(true);
     const [lengthValueHolder,setlengthValueHolder] =useState(new Animated.Value(isRotating ? 0 : 1));
@@ -24,8 +24,8 @@ const BlockInformation = ({status,excerpt,quote,postId,navigation}) => {
 
 
     useEffect(()=>{
-        console.log("status"+status);
-        console.log("isRotating"+isRotating);
+        // console.log("status"+status);
+        // console.log("isRotating"+isRotating);
         if(isRotating==false)
         {
             setRotation(!isRotating);
