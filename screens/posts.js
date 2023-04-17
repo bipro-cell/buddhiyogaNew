@@ -113,7 +113,7 @@ const Posts= (props,{navigation}) => {
     return (<>
     <SafeAreaView style={styles.cardViewOverAll}>
             <View style={{backgroundColor:"#cfc19f"}}>
-              <Postsheader navigation={props.navigation} increaseFont={increaseSize} decreaseFont={decreaseFont}/>
+              <Postsheader navigation={props.navigation} increaseFont={increaseSize} decreaseFont={decreaseFont} postID={postId}/>
               
             {
             (postList.length>0) ?( 

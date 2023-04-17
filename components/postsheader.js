@@ -2,7 +2,7 @@ import React from "react";
 import { Text, View, Image, TouchableOpacity, TouchableWithoutFeedback } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome';
 // import Zoomin from './zoomin';
-function Postsheader({navigation,increaseFont,decreaseFont}){
+function Postsheader({navigation,increaseFont,decreaseFont,postID}){
 
     return(
         <View style={{width:"100%",height:"5%",marginVertical:0,paddingVertical:3,flexDirection:"row",backgroundColor:"#b79972"}}>
@@ -15,7 +15,7 @@ function Postsheader({navigation,increaseFont,decreaseFont}){
                  resizeMode:"contain"}} />
              </View>
              </View>
-             <View style={{flexDirection:"row", alignItems:"center",width:"50%", justifyContent:"flex-end"}}>
+             {/* <View style={{flexDirection:"row", alignItems:"center",width:"50%", justifyContent:"flex-end"}}>
                 <TouchableWithoutFeedback onPress={(e)=>increaseFont()}>
                 <View style={{width:"20%",}}>
                 <Image  source={require("../assets/other/increase.png")} style={{flex: 1, aspectRatio:1,
@@ -28,7 +28,13 @@ function Postsheader({navigation,increaseFont,decreaseFont}){
                  resizeMode:"contain"}} />
                   </View>
             </TouchableWithoutFeedback>
-            </View>
+            <TouchableWithoutFeedback onPress={(e)=>navigation.navigate('Comment',{postId:postID})}>
+            <View style={{width:"30%"}}>
+            <Image  source={require("../assets/other/messege.png")} style={{flex: 1, aspectRatio:1,
+                 resizeMode:"contain"}} />
+                  </View>
+            </TouchableWithoutFeedback>
+            </View> */}
         </View>
         
         

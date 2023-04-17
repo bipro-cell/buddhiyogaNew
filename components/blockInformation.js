@@ -5,8 +5,8 @@ import {WP_URL_POST}  from '@env';
 import RenderHtml from 'react-native-render-html';
 
 
-const BlockInformation = ({excerpt,quote,postId,navigation}) => {
-    console.log(excerpt);
+const BlockInformation = ({status,excerpt,quote,postId,navigation}) => {
+    console.log(status);
     // console.log(postId);
     const [isRotating, setRotation] = useState(true);
     const [lengthValueHolder,setlengthValueHolder] =useState(new Animated.Value(isRotating ? 0 : 1));
@@ -21,6 +21,17 @@ const BlockInformation = ({excerpt,quote,postId,navigation}) => {
         increaseLengthFunction();
        }
     },[isRotating]);
+
+
+    useEffect(()=>{
+        console.log("status"+status);
+        console.log("isRotating"+isRotating);
+        if(isRotating==false)
+        {
+            setRotation(!isRotating);
+         stopincreaseLengthFunction();
+        }
+     },[status]);
     useEffect(()=>{
         getPosts();
          

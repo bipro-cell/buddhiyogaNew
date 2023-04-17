@@ -61,6 +61,7 @@ const Game= ({navigation}) => {
   const [excerpt,setExcerptState] =useState("Hello World");
   const [gameQoute,setgameQoute] =useState("Game Starts");
   const cellInfo = useRef("Loading please wait...");
+  const blockInformationStatus = useRef(true);
 /* Variables for the game  */  
     
   // const position = new Animated.ValueXY({x:0,y:0});
@@ -343,6 +344,8 @@ const stateChangePawn = ()=>
   },[excerpt]);
 
   const diceRoll=()=>{
+    blockInformationStatus.current = !blockInformationStatus.current;
+    // console.log(blockInformationStatus.current)
     // alert("jkh")
     Animated.timing(
       diceSpinValue,
@@ -711,7 +714,7 @@ const getPosts=(e)=>{
    </View>
 
    <View style={{ marginTop:'70%',width:"100%", height:"50%",justifyContent:'flex-end',backgroundColor: 'rgba(255, 255, 255, 1)',backgroundColor:"#cfc19f",}} >
-   <BlockInformation ref={cellInfo} excerpt={excerpt} postId={postIdCellMovement.current} navigation={navigation} />        
+   <BlockInformation ref={cellInfo} status={blockInformationStatus.current} excerpt={excerpt} postId={postIdCellMovement.current} navigation={navigation} />        
    </View>
    </SafeAreaView>
    </>
@@ -724,7 +727,7 @@ const styles = StyleSheet.create({
     alignContent:'center',
     justifyContent:'center',
     position:'absolute',
-    marginTop:'10%',
+    // marginTop:'10%',
     zIndex:1
     
   },
