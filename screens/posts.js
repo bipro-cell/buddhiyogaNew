@@ -15,6 +15,7 @@ import {
 import PostsPictureComponent from '../components/PostsPictureComponent';
 import PostsContentComponent from '../components/PostsContentComponent';
 import {WP_URL_POST}  from '@env';
+import PostBottomSticky from '../components/postBottomStickyTab';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Postsheader from '../components/postsheader';
 import BlockInformation from '../components/blockInformation';
@@ -133,10 +134,12 @@ const Posts= (props,{navigation}) => {
                         <PostsPictureComponent postId={15} subTitle={postList[0].excerpt.rendered} title={postList[0].title.rendered} imageUrl={postList[0].better_featured_image.media_details.sizes.large.source_url} />
                         <PostsContentComponent content={postList[0].content.rendered} />
                     </ScrollView>
-                   
+                    
                 
                
                  </Animated.View>
+
+                 <PostBottomSticky />
                  
                  </View>
                  
@@ -170,6 +173,8 @@ const Posts= (props,{navigation}) => {
             </SafeAreaView>
             </Animated.View>)
         }
+
+        
         
           </View>
            <View style={{width:"100%",height:"40%",backgroundColor:"green"}}></View>

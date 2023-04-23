@@ -41,12 +41,12 @@ function onLoading(value)
     {
 		<Card.Cover style={imageLoad?{display:'none'}:{}}source={{ uri: props.imageUrl }} onLoadStart={() => onLoading(true)} onLoadEnd={()=>onLoading(false)}  />}
 	<Card.Content>
-  <RenderHtml
+  {/* <RenderHtml
       source={{
         html: props.subTitle
       }}
       tagsStyles={tagsStyles}
-    />
+    /> */}
 		</Card.Content>
 	</Card>
   </>
