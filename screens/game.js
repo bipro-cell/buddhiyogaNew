@@ -288,7 +288,7 @@ const initializePawn = ()=>
             toValue:{x:playerPositionX.current,y:playerPositionY.current},
             useNativeDriver: true
             }).start();
-            setExcerptState(playerPositions[positionConfig.initCellPos].info.quote[0].name);
+            setExcerptState(playerPositions[positionConfig.initCellPos].info.name+":"+playerPositions[positionConfig.initCellPos].info.quote[0].name);
             setDiceFace(Dice7);
       }
       else
@@ -310,7 +310,7 @@ const initializePawn = ()=>
             toValue:{x:playerPositionX.current,y:playerPositionY.current},
             useNativeDriver: true
             }).start();
-            setExcerptState(playerPositions[player.current.position].info.quote[0].name);
+            setExcerptState(playerPositions[player.current.position].info.name+": "+playerPositions[player.current.position].info.quote[0].name);
             setDiceFace(savedData.diceFace);
       }
   });
@@ -471,7 +471,7 @@ const stateChangePawn = ()=>
     }
     postIdCellMovement.current=playerPositions[player.current.position].postID;
     saveStatesFunc();
-    setExcerptState(playerPositions[player.current.position].info.quote[0].name);
+    setExcerptState(playerPositions[player.current.position].info.name+": "+playerPositions[player.current.position].info.quote[0].name);
     // alert
   };
 
@@ -524,7 +524,7 @@ const stateChangePawn = ()=>
       player.current.position=player.current.targetPosition;
       postIdCellMovement.current=playerPositions[player.current.position].postID;
       saveStatesFunc();
-      setExcerptState(playerPositions[player.current.position].info.quote[0].name);
+      setExcerptState(playerPositions[player.current.position].info.name+": "+playerPositions[player.current.position].info.quote[0].name);
     });
 
     
@@ -754,7 +754,7 @@ const getPosts=(e)=>{
    </View>
 
    <View style={{ marginTop:'80%',width:"100%", height:"50%",justifyContent:'flex-end',backgroundColor: 'rgba(255, 255, 255, 1)'}} >
-   <BlockInformation ref={cellInfo} excerpt={excerpt} postId={postIdCellMovement.current} navigation={navigation} />        
+   <BlockInformation ref={cellInfo}  excerpt={excerpt} postId={postIdCellMovement.current} navigation={navigation} />        
    </View>
    </SafeAreaView>
    </>
