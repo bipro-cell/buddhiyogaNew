@@ -21,8 +21,8 @@ import Postsheader from '../components/postsheader';
 import BlockInformation from '../components/blockInformation';
 
 
-const Posts= (props,{navigation}) => {
-  console.log(props)
+const Posts= (props) => {
+  // console.log(props)
     const [postList, setPostList] = React.useState([]);
     const [postId,setPostId] = React.useState(props.route.params.postId);
     const slideUpValue= new Animated.Value(0);
@@ -41,7 +41,7 @@ const Posts= (props,{navigation}) => {
 
 
     handleBackButtonClick= () => {
-        console.log(props);
+        // console.log(props);
         props.navigation.goBack(null);
         return true;
       }
@@ -64,7 +64,7 @@ const Posts= (props,{navigation}) => {
        
       }    
       const _start = async () => {
-        console.log("hello")
+        // console.log("hello")
         return Animated.parallel([
           Animated.timing(slideUpValue, {
     
@@ -80,7 +80,7 @@ const Posts= (props,{navigation}) => {
     
       };
       const _end = async () => {
-        console.log("hello")
+        // console.log("hello")
         return Animated.parallel([
           Animated.timing(slideDownValue, {
     
@@ -110,11 +110,18 @@ const Posts= (props,{navigation}) => {
           setfontSize(fontSize-1);
         }
       }
+      const postComment=()=>{
+        // console.log(props.route.params)
+        props.navigation.navigate('Comment',{postId:postId});
+      }
+      const postShare=()=>{
+        propsnavigation.navigate('Share',{postId:postId});
+      }
 
     return (<>
     <SafeAreaView style={styles.cardViewOverAll}>
             <View style={{backgroundColor:"#cfc19f"}}>
-              <Postsheader navigation={props.navigation} increaseFont={increaseSize} decreaseFont={decreaseFont}/>
+              <Postsheader navigation={props.navigation}/>
               
             {
             (postList.length>0) ?( 
@@ -151,7 +158,7 @@ const Posts= (props,{navigation}) => {
                
                  </Animated.View>
 
-                 <PostBottomSticky />
+                 <PostBottomSticky increaseFont={increaseSize} decreaseFont={decreaseFont} postShare={postShare} postComment={postComment}/>
                  
                  </View>
                  
@@ -189,7 +196,7 @@ const Posts= (props,{navigation}) => {
         
         
           </View>
-           <View style={{width:"100%",height:"40%",backgroundColor:"green"}}></View>
+           <View style={{width:"100%",height:"40%",backgroundColor:"#cfc19f"}}></View>
            </SafeAreaView>
     
     </>);

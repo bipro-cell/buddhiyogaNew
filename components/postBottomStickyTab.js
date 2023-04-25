@@ -1,22 +1,26 @@
 import React,{useState,useEffect} from "react";
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Animated,View,Text, TouchableWithoutFeedback ,Easing,TouchableOpacity,ScrollView,StyleSheet} from "react-native";
+import { Animated,View,Text,Image, TouchableWithoutFeedback ,Easing,TouchableOpacity,ScrollView,StyleSheet} from "react-native";
 
-const PostBottomSticky = () =>{
+const PostBottomSticky = ({increaseFont,decreaseFont,postComment,postShare}) =>{
     return (
         <View style={styles.tabView}>
             <View style={{flexDirection:"row", alignItems:"center",width:"100%", justifyContent:"space-evenly"}}>
-            <TouchableWithoutFeedback onPress={()=>console.log("Increase Font Size")}>
-            <Icon name='plus' size={25} style={{marginHorizontal:'5%'}} ></Icon>
+            <TouchableWithoutFeedback onPress={(e)=>increaseFont()}>
+            <Image  source={require("../assets/other/fontsplus.png")} style={{flex: .35, aspectRatio:2.8,
+                 resizeMode:"contain"}} />
             </TouchableWithoutFeedback>
-            <TouchableWithoutFeedback onPress={()=>console.log("Decrease Font Size")}>
-            <Icon name='minus' size={25} style={{marginHorizontal:'5%'}} ></Icon>
+            <TouchableWithoutFeedback onPress={(e)=>decreaseFont()}>
+            <Image  source={require("../assets/other/fontminus.png")} style={{flex: .35, aspectRatio:2.8,
+                 resizeMode:"contain"}} />
             </TouchableWithoutFeedback>
-            <TouchableWithoutFeedback onPress={()=>console.log("Check Comments")}>
-            <Icon name='comment' size={25} style={{marginHorizontal:'5%'}} ></Icon>
+            <TouchableWithoutFeedback onPress={(e)=>postComment()}>
+            <Image  source={require("../assets/other/messege.png")} style={{flex: .35, aspectRatio:2.8,
+                 resizeMode:"contain"}} />
             </TouchableWithoutFeedback>
-            <TouchableWithoutFeedback onPress={()=>console.log("Share")}>
-            <Icon name='share' size={25} style={{marginHorizontal:'5%'}} ></Icon>
+            <TouchableWithoutFeedback onPress={(e)=>postShare()}>
+            <Image  source={require("../assets/other/share.png")} style={{flex: .35, aspectRatio:2.8,
+                 resizeMode:"contain"}} />
             </TouchableWithoutFeedback>
             </View>
         </View>
@@ -25,15 +29,14 @@ const PostBottomSticky = () =>{
 
 const styles = StyleSheet.create({
     tabView:{
-
         position: 'absolute',
-        flex:0.1,
+        // flex:0.1,
         left: 0,
         right: 0,
-        bottom: 40,
+        bottom: 78,
         backgroundColor:'#b79972',
         flexDirection:'row',
-        height:80,
+        height:40,
         shadowColor: '#171717',
         shadowOffset: {width: 0, height: 3},
         shadowOpacity: 0.4,

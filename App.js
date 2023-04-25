@@ -13,6 +13,8 @@ import { Image } from 'react-native';
  import Posts from "./screens/posts";
  import Contact from './screens/contact';
  import Hamburger from './components/hamburger';
+ import Comment from './components/comment';
+ import Share from './components/share';
  import { NavigationContainer } from '@react-navigation/native';
  import { createNativeStackNavigator } from '@react-navigation/native-stack';
  import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -85,6 +87,8 @@ const App = (props)=> {
         />
         <Stack.Screen name="Game" component={DrawerRoutes} />
         <Stack.Screen name="Posts" component={Posts} />
+        <Stack.Screen name="Comment" component={Comment} />
+        <Stack.Screen name="Share" component={Share} />
       </Stack.Navigator>
     </NavigationContainer>
     </>

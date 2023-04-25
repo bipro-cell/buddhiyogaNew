@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { View,Text,StyleSheet,TextInput,TouchableWithoutFeedback } from "react-native";
+import { View,Text,StyleSheet,TextInput,TouchableWithoutFeedback,Animated,Easing } from "react-native";
 import{REGISTER_URL} from '@env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ProfileManagement from "./ProfileManagement";
+import Loader from "./loader";
 
 function Register({props}){
 
@@ -11,21 +12,27 @@ const[email,setEmail]=useState('');
 const[password,setPassword]=useState('');
 const[phone,setPhone]=useState('');
 const [status,setStatus]=useState(0);
+
 const [userData,setUserData]=useState('');
+const [submitStatus,setSubmitStatus] = useState(false);
 
 useEffect(()=>{
-  if(userData.length ===null)
-checkUserStorage()
+  if(userData ==='')
+  {
+    checkUserStorage();
+  }
+  
 });
 
 const checkUserStorage=async()=>{
-  var userStorageData=await AsyncStorage.getItem('userData');
+  
+  var userStorageData=await AsyncStorage.getItem('buddhiyogaUserData');
   if(Object.keys(JSON.parse(userStorageData)).length >0 ||userStorageData != null || userStorageData!=undefined)
   {
     setStatus(1);
     setUserData(userStorageData);
     userStorageData=JSON.parse(userStorageData);
-    console.log(userStorageData.password)
+    console.log(userStorageData.name)
     setName(userStorageData.name);
     setEmail(userStorageData.email)
     setPassword(userStorageData.password);
@@ -34,37 +41,43 @@ const checkUserStorage=async()=>{
 }
 
     const submitButonHandler=async()=>{
-      
+      setSubmitStatus(true);
        let data = {
     method: 'POST',
     credentials: 'same-origin',
     mode: 'same-origin',
     body: JSON.stringify({
-    name:name,
+    username:name,
     email:email,
-    phone:phone,
-    password:password
+    // phone:phone,
+    password:password,
+    "roles":["customer"]
     }),
     headers: {
       'Accept':       'application/json',
       'Content-Type': 'application/json',
-    }
+      'Authorization': 'Basic YnVkZGhpeW9nYTpHZEpSIDdYeFUgdHQ5YyBlSFZ2IFZCcnIgVHhEdg=='
+    },
+    
   };
   let response=  await fetch(REGISTER_URL,data)
     .then(response => response.json())  // promise
     .then(async(json) =>{
-      // console.log(json);
-      if(json.code ===2)
+      setSubmitStatus(false);
+      console.log(json.id);
+
+      if(json.code==="existing_user_login")
       {
-        alert('Record Updated Successfully!!');
+        alert("User Already Exists");
+
       }
-      else if(json.code === -1)
+      else if(json.code==="existing_user_email")
       {
-        alert('Server Error');
+        alert("Email Already Exists");
       }
       else{
-        var userData={name:name, email:email, password:password, phone:phone};
-        await AsyncStorage.setItem('userData', JSON.stringify(userData));
+        var userData={name:name, email:email, password:password, phone:phone,userID:json.id};
+        await AsyncStorage.setItem('buddhiyogaUserData', JSON.stringify(userData));
         setStatus(1);
         alert("Successfully Registered");
 
@@ -100,6 +113,7 @@ const checkUserStorage=async()=>{
         onChangeText={newValue => setEmail(newValue)}
         editable={status==0?true:false}
       />
+
                       <TextInput
         style={styles.input}
         autoCapitalize='none'
@@ -117,12 +131,26 @@ const checkUserStorage=async()=>{
         onChangeText={newValue => setPassword(newValue)}
       />
         
-        <TouchableWithoutFeedback style={{}} onPress={()=>submitButonHandler()}>
-    <View>
+            {
+              submitStatus &&
+              <TouchableWithoutFeedback style={{}} disabled>
+            <View>
             <Text style={styles.btnstext}>Submit</Text>
+            <Loader/>
             </View>
-
-        </TouchableWithoutFeedback>
+            </TouchableWithoutFeedback>
+            }
+            {
+              !submitStatus &&
+              <TouchableWithoutFeedback style={{}} onPress={()=>submitButonHandler()}>
+            <View>
+            <Text style={styles.btnstext}>Submit</Text>
+            {/* <Loader/> */}
+            </View>
+            </TouchableWithoutFeedback>
+            }
+        
+              
 </View>
         </>
     )
