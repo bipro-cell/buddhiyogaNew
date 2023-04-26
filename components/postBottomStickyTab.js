@@ -1,5 +1,4 @@
 import React,{useState,useEffect} from "react";
-import Icon from 'react-native-vector-icons/FontAwesome';
 import { Animated,View,Text,Image, TouchableWithoutFeedback ,Easing,TouchableOpacity,ScrollView,StyleSheet} from "react-native";
 
 const PostBottomSticky = ({increaseFont,decreaseFont,postComment,postShare}) =>{
@@ -33,7 +32,7 @@ const styles = StyleSheet.create({
         // flex:0.1,
         left: 0,
         right: 0,
-        bottom: 78,
+        bottom: 52,
         backgroundColor:'#b79972',
         flexDirection:'row',
         height:40,

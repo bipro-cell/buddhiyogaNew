@@ -9,8 +9,10 @@ import {
   Text,
   TextInput,
   Platform,
-  SafeAreaView
+  SafeAreaView,
+  Dimensions
 } from 'react-native';
+
 import { TouchableOpacity } from 'react-native';
 import BlockInformation from '../components/blockInformation';
 import PinchZoomView from 'react-native-pinch-zoom-view';
@@ -51,6 +53,7 @@ const Game= ({navigation}) => {
   const panRef = createRef();
   const playerPositionX=useRef(0);
   const playerPositionY=useRef(0);
+  const { width, height } = Dimensions.get('window');
 
 
   const[pinchState,setPinchState]=useState(false);
@@ -58,8 +61,8 @@ const Game= ({navigation}) => {
     // when scale < 1, reset scale back to original (1)
     
   const [gameState,setGameState] =useState(0);
-  const [excerpt,setExcerptState] =useState("Hello World");
-  const [gameQoute,setgameQoute] =useState("Game Starts");
+  const [excerpt,setExcerptState] =useState("Loading....");
+  const [postName,setPostName] =useState("..");
   const cellInfo = useRef("Loading please wait...");
 /* Variables for the game  */  
     
@@ -288,7 +291,8 @@ const initializePawn = ()=>
             toValue:{x:playerPositionX.current,y:playerPositionY.current},
             useNativeDriver: true
             }).start();
-            setExcerptState(playerPositions[positionConfig.initCellPos].info.name+":"+playerPositions[positionConfig.initCellPos].info.quote[0].name);
+            setExcerptState(playerPositions[positionConfig.initCellPos].info.quote[0].name);
+            setPostName(playerPositions[positionConfig.initCellPos].info.name);
             setDiceFace(Dice7);
       }
       else
@@ -310,7 +314,8 @@ const initializePawn = ()=>
             toValue:{x:playerPositionX.current,y:playerPositionY.current},
             useNativeDriver: true
             }).start();
-            setExcerptState(playerPositions[player.current.position].info.name+": "+playerPositions[player.current.position].info.quote[0].name);
+            setExcerptState(playerPositions[player.current.position].info.quote[0].name);
+            setPostName(playerPositions[player.current.position].info.name);
             setDiceFace(savedData.diceFace);
       }
   });
@@ -471,7 +476,8 @@ const stateChangePawn = ()=>
     }
     postIdCellMovement.current=playerPositions[player.current.position].postID;
     saveStatesFunc();
-    setExcerptState(playerPositions[player.current.position].info.name+": "+playerPositions[player.current.position].info.quote[0].name);
+    setExcerptState(playerPositions[player.current.position].info.quote[0].name);
+    setPostName(playerPositions[player.current.position].info.name);
     // alert
   };
 
@@ -524,7 +530,8 @@ const stateChangePawn = ()=>
       player.current.position=player.current.targetPosition;
       postIdCellMovement.current=playerPositions[player.current.position].postID;
       saveStatesFunc();
-      setExcerptState(playerPositions[player.current.position].info.name+": "+playerPositions[player.current.position].info.quote[0].name);
+      setExcerptState(playerPositions[player.current.position].info.quote[0].name);
+      setPostName(playerPositions[player.current.position].info.name);
     });
 
     
@@ -632,67 +639,24 @@ const getPosts=(e)=>{
 
   return (
     <>
-    <SafeAreaView>
+    <SafeAreaView style={{backgroundColor:"#cfc19f", width: width,height: height,flex: 1, flexDirection: "column",justifyContent: 'space-between'}}>
     <Hamburger navigation={navigation} resetFunction={resetGame} infoFunction={about} style={styles.hamburgerPosition} />
 
     <View style={styles.container} >
     
     <Animated.View style={styles.gameContainer}>
-       
         <GestureHandlerRootView>
-        
-           {/* <PinchGestureHandler 
-           onGestureEvent={onGestureEvent}
-          onHandlerStateChange={onPinchStateChange}
-          onActivated={()=>{
-            // console.log("hello world")
-            setPinchState(true)
-          }}
-          onEnded={()=>{
-            // console.log("hello world")
-            setPinchState(false)
-          }}
-
-          onBegan={()=>{
-            setPinchState(true)
-          }}
-
-          onCancelled={()=>{
-            // console.log("hello world")
-            setPinchState(false)
-          }}
-
-          onFailed={()=>{
-            // console.log("hello world")
-            setPinchState(false)
-          }}
-          > */}
           <Pinchable>
-        <View style={{flex:1,width:380,height:380}}>
-          {/* <PanGestureHandler onGestureEvent={handlePanGesture} onHandlerStateChange={onHandlerPanStateChange}
-         
-         >
-         <Animated.View
-         style={{
-           transform: [{
-             translateY : translateY
-         },
-         {
-             translateX : translateX
-         }]
-         }}
-         > */}
+        <View style={{flex:1,width:width,justifyContent: "center", alignItems: "center",flexDirection: "row"}}>
+          {/* <View> */}
         <TapGestureHandler
           numberOfTaps={2}
           onActivated={(e) => (
               getPosts(e)
         )}>
-          <Image source={require('../assets/game/board.jpg')} style={{flex:1,width:380,height:380}} />
+          <Image source={require('../assets/game/board.jpg')} style={{width:380,height:380,backgroundColor: '#fff'}} />
         </TapGestureHandler>
-        {/* </Animated.View>
-        </PanGestureHandler> */}
          </View>
-        {/* </PinchGestureHandler> */}
         </Pinchable>
         
         </GestureHandlerRootView>
@@ -717,7 +681,7 @@ const getPosts=(e)=>{
       alignItems:'center',
       justifyContent:'center',
       width:"100%",
-      bottom:20,
+      bottom:0,
       height:"10%"
       }}>
       { (!pinchState)?(
@@ -727,8 +691,6 @@ const getPosts=(e)=>{
         height:40,
         backgroundColor:"rgba(88, 44, 36,1)",
         borderRadius:10,        
-        
-        
         transform: [{rotate: spin}]
     
     }}>
@@ -750,12 +712,12 @@ const getPosts=(e)=>{
       </View>
 
     </Animated.View>
-    
+ 
    </View>
-
-   <View style={{ marginTop:'80%',width:"100%", height:"50%",justifyContent:'flex-end',backgroundColor: 'rgba(255, 255, 255, 1)'}} >
-   <BlockInformation ref={cellInfo}  excerpt={excerpt} postId={postIdCellMovement.current} navigation={navigation} />        
+   <View style={{ marginTop:'0%',width:"100%", height:"10%",justifyContent:'flex-end',backgroundColor:"#cfc19f"}} >
+   <BlockInformation ref={cellInfo} excerpt={excerpt} postName={postName} postId={postIdCellMovement.current} navigation={navigation} />        
    </View>
+  
    </SafeAreaView>
    </>
   );
@@ -765,17 +727,21 @@ const styles = StyleSheet.create({
   container:{
     flex:1,
     alignContent:'center',
-    justifyContent:'center',
+    justifyContent:'space-around',
+    // alignItems: 'center',
+    // flexDirection: 'column',
     position:'absolute',
-    marginTop:'30%',
+    marginTop:'15%',
     zIndex:1
     
   },
   gameContainer:{
     alignContent:'center',
+    // justifyContent:'center',
+    // alignItems: "center";
     width:"100%",
-    height:"90%",
-    marginLeft:"1.5%",
+    height:"80%",
+    marginHorizontal:"0%",
     zIndex:2
   },
   CircleShape: {

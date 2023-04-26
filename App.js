@@ -21,6 +21,7 @@ import { Image } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Profile from './screens/profile';
 import Aboutus from './screens/aboutus';
+import Shop from './screens/shop';
  
 
 const App = (props)=> {
@@ -48,6 +49,14 @@ const App = (props)=> {
            
         }}/>
       <Drawer.Screen name="Profile" component={Profile}  options={{
+           drawerIcon: ({focused, size}) => (
+            // <Icon name="question" size={25} color="#582c24" />   
+            <Image source={require("./assets/other/register.png")} style={{width:'12.3%',height:'110%'}}/>
+        
+           ),
+           
+        }}/>
+        <Drawer.Screen name="Shop" component={Shop}  options={{
            drawerIcon: ({focused, size}) => (
             // <Icon name="question" size={25} color="#582c24" />   
             <Image source={require("./assets/other/register.png")} style={{width:'12.3%',height:'110%'}}/>

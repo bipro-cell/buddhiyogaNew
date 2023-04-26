@@ -57,7 +57,7 @@ export default PostsPictureComponent;
 const Styles = StyleSheet.create({
 	container :{
 		alignContent:'center',
-		marginVertical:40,
+		marginVertical:20,
     marginHorizontal: 10,
     padding:10,
     backgroundColor:'#F2D997'

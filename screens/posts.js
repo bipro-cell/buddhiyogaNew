@@ -5,24 +5,20 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
-  Card,
   ScrollView,
   Animated,
-  TouchableOpacity,TouchableWithoutFeedback
+  TouchableOpacity,TouchableWithoutFeedback,Share
 } from 'react-native';
 
 import PostsPictureComponent from '../components/PostsPictureComponent';
 import PostsContentComponent from '../components/PostsContentComponent';
 import {WP_URL_POST}  from '@env';
-import PostBottomSticky from '../components/postBottomStickyTab';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import Postsheader from '../components/postsheader';
-import BlockInformation from '../components/blockInformation';
+import PostBottomSticky from '../components/postBottomStickyTab';
 
 
-const Posts= (props) => {
-  // console.log(props)
+const Posts= (props,{navigation}) => {
+  console.log(props)
     const [postList, setPostList] = React.useState([]);
     const [postId,setPostId] = React.useState(props.route.params.postId);
     const slideUpValue= new Animated.Value(0);
@@ -41,7 +37,7 @@ const Posts= (props) => {
 
 
     handleBackButtonClick= () => {
-        // console.log(props);
+        console.log(props);
         props.navigation.goBack(null);
         return true;
       }
@@ -64,7 +60,6 @@ const Posts= (props) => {
        
       }    
       const _start = async () => {
-        // console.log("hello")
         return Animated.parallel([
           Animated.timing(slideUpValue, {
     
@@ -80,7 +75,7 @@ const Posts= (props) => {
     
       };
       const _end = async () => {
-        // console.log("hello")
+        console.log("hello")
         return Animated.parallel([
           Animated.timing(slideDownValue, {
     
@@ -110,18 +105,44 @@ const Posts= (props) => {
           setfontSize(fontSize-1);
         }
       }
+
+      // const postShare=()=>{
+      //   props.navigation.navigate('Share',{postId:postId});
+      // }
+
       const postComment=()=>{
         // console.log(props.route.params)
         props.navigation.navigate('Comment',{postId:postId});
       }
-      const postShare=()=>{
-        propsnavigation.navigate('Share',{postId:postId});
+
+      const sharePost=async()=>{
+        try {
+          // console.log(postList[0].link);
+          const result = await Share.share({
+            message: postList!=null?+postList[0].link:"https://buddhiyoga.in/site/en/",
+            url: postList!=null?postList[0].link:"https://buddhiyoga.in/site/en/",
+            title: 'BuddhiYoga',
+
+          },
+          {
+            dialogTitle:'BuddhiYoga'
+          });
+          if (result.action === Share.sharedAction) {
+            console.log('Shared successfully');
+          } else if (result.action === Share.dismissedAction) {
+            console.log('Sharing cancelled');
+          }
+        } catch (error) {
+          console.log(error.message);
+        }
       }
 
     return (<>
     <SafeAreaView style={styles.cardViewOverAll}>
             <View style={{backgroundColor:"#cfc19f"}}>
-              <Postsheader navigation={props.navigation}/>
+              <Postsheader navigation={props.navigation} increaseFont={increaseSize} decreaseFont={decreaseFont} postID={postId}/>
+              {/* <FloatingFont increaseFont={increaseSize} decreaseFont={decreaseFont} sharePost={sharePost} postID={postId} /> */}
+              <PostBottomSticky increaseFont={increaseSize} decreaseFont={decreaseFont} postShare={sharePost} postComment={postComment}/>
               
             {
             (postList.length>0) ?( 
@@ -138,7 +159,7 @@ const Posts= (props) => {
       
                         inputRange: [0, 1],
       
-                        outputRange: [600, 0]
+                        outputRange: [900, 0]
       
                       })
       
@@ -151,14 +172,12 @@ const Posts= (props) => {
                 
                     <ScrollView contentInsetAdjustmentBehavior="automatic">
                         <PostsPictureComponent postId={15} subTitle={postList[0].excerpt.rendered} fontSize={fontSize} title={postList[0].title.rendered} imageUrl={postList[0].better_featured_image.media_details.sizes.large.source_url} />
-                        <PostsContentComponent content={postList[0].content.rendered} fontSize={fontSize}/>
+                        <PostsContentComponent subTitle={postList[0].excerpt.rendered} title={postList[0].title.rendered} content={postList[0].content.rendered} fontSize={fontSize}/>
                     </ScrollView>
-                    
+                   
                 
                
                  </Animated.View>
-
-                 <PostBottomSticky increaseFont={increaseSize} decreaseFont={decreaseFont} postShare={postShare} postComment={postComment}/>
                  
                  </View>
                  
@@ -192,8 +211,6 @@ const Posts= (props) => {
             </SafeAreaView>
             </Animated.View>)
         }
-
-        
         
           </View>
            <View style={{width:"100%",height:"40%",backgroundColor:"#cfc19f"}}></View>
@@ -215,8 +232,8 @@ const styles = StyleSheet.create({
     cardViewOverAll:{
         width:"100%",
         height:"100%",
-        backgroundColor:'#cfc19f'
-        
+        backgroundColor:'#cfc19f',
+        // marginVertical:20,
         
     },
     cardView:{
