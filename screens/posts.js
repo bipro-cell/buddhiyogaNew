@@ -45,7 +45,7 @@ const Posts= (props,{navigation}) => {
     
     async function getPosts() {
         try {
-        console.log(WP_URL_POST+''+postId);
+        // console.log(WP_URL_POST+''+postId);
         let response = await fetch(
             WP_URL_POST+''+postId,
         );
@@ -106,20 +106,15 @@ const Posts= (props,{navigation}) => {
         }
       }
 
-      // const postShare=()=>{
-      //   props.navigation.navigate('Share',{postId:postId});
-      // }
-
       const postComment=()=>{
-        // console.log(props.route.params)
         props.navigation.navigate('Comment',{postId:postId});
       }
 
       const sharePost=async()=>{
         try {
-          // console.log(postList[0].link);
+          // console.log(postList!=null);
           const result = await Share.share({
-            message: postList!=null?+postList[0].link:"https://buddhiyoga.in/site/en/",
+            message: postList!=null?postList[0].link:"https://buddhiyoga.in/site/en/",
             url: postList!=null?postList[0].link:"https://buddhiyoga.in/site/en/",
             title: 'BuddhiYoga',
 

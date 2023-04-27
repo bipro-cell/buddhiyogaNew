@@ -1,14 +1,19 @@
-import { mergeProps } from "@native-html/css-processor";
 import React, { useState } from "react";
+import { useEffect } from "react";
 import { Text ,View, StyleSheet } from 'react-native';
 import {Card, Button , Title ,Paragraph } from 'react-native-paper';
 import RenderHtml from 'react-native-render-html';
 const PostsContentComponent = (prop) => {
-  const source = {
-    html: prop.content
-  };
-const [fontSize,setFontSize] = useState(20);
-
+	const [source,setNewHtml]=useState({html:"Loading..."});
+	useEffect(()=>{
+		 getHtml();
+	},[source.html.length]);
+	const getHtml=()=>{
+		var str="<hr/><p><strong>Audio</strong></p>";
+		var excerpt="<p><strong>Excerpt</strong></p>"+prop.subTitle+str;
+		var newStr= prop.content.split(str);
+		setNewHtml({html:newStr[0]+excerpt+newStr[1]});
+	}
   const tagsStyles = {
 	body: {
 	  whiteSpace: 'normal',
@@ -21,9 +26,6 @@ const [fontSize,setFontSize] = useState(20);
 	}
   };
   
-  
-//   console.log(prop);
-	
 	return(
 		
 		<Card style={Styles.container}>

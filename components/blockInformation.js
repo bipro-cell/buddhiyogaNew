@@ -1,12 +1,15 @@
 import React,{useState,useEffect} from "react";
-import { Animated,View,Text, TouchableWithoutFeedback ,Easing,TouchableOpacity,ScrollView,Image} from "react-native";
+import { Animated,Text, TouchableWithoutFeedback ,Easing,ScrollView,Image} from "react-native";
 import {WP_URL_POST}  from '@env';
 
 
-const BlockInformation = ({excerpt,postName,postId,navigation}) => {
+const BlockInformation = ({setrotation,rotation,excerpt,postName,postId,navigation}) => {
+   
     const [isRotating, setRotation] = useState(true);
+    console.log("bl"+rotation);
     const [lengthValueHolder,setlengthValueHolder] =useState(new Animated.Value(isRotating ? 0 : 1));
     const [postList, setPostList] = React.useState([]);
+
     useEffect(()=>{
        if(isRotating==true)
        {
@@ -17,6 +20,11 @@ const BlockInformation = ({excerpt,postName,postId,navigation}) => {
         increaseLengthFunction();
        }
     },[isRotating]);
+
+    useEffect(()=>{
+         setRotation(rotation);
+    },[rotation]);
+
     useEffect(()=>{
         getPosts();
          
@@ -26,24 +34,8 @@ const BlockInformation = ({excerpt,postName,postId,navigation}) => {
     return html.replace(/<[^>]+>/g, '');
 }
 
-   const tagsStyles = {
-    body: {
-      color: 'black',
-      backgroudColor:'#F2D997',
-      fontSize: 13,
-     adjustsFontSizeToFit:true,
-     paddingHorizontal:10,
-     ellipsizeMode:'tail', 
-     numberOfLines: 2
-    },
-    a: {
-      color: 'green'
-    }
-    };
-
     async function getPosts() {
         try {
-        // console.log(WP_URL_POST+''+postId);
         let response = await fetch(
             WP_URL_POST+''+postId,
         );
@@ -84,50 +76,40 @@ const BlockInformation = ({excerpt,postName,postId,navigation}) => {
         outputRange: ['70%','140%']
     });
 
-    const zIndex = lengthValueHolder.interpolate({
-        inputRange: [0,1],
-        outputRange: [0,-2]
-    });
-
     const viewLengthStyle={
         height: lengthData
     }
 
     const checkOnPress = ()=>{
+        if(isRotating==true)
+        setrotation(false);
         setRotation(!isRotating);
     }
 
 return(
     <>
-    {/* <View style={{alignContent: 'center',flex:1}}> */}
     <TouchableWithoutFeedback onPress={()=>checkOnPress()}> 
-    <Image source={require('../assets/other/up.png')} style={{width:40,height:40,zIndex: 1, top:10}}/>
+    {
+        isRotating==true &&
+        <Image source={require('../assets/other/up.png')} style={{width:35,height:35,zIndex: 1, top:10}}/>
+        ||
+        <Image source={require('../assets/other/down.png')} style={{width:35,height:35,zIndex: 1, top:10}}/>
+    }
+
 
     </TouchableWithoutFeedback>
-    {/* </View> */}
         
     <Animated.View style={[{width:"100%", backgroundColor:"#b79972",borderTopLeftRadius: 15,borderTopRightRadius: 15,borderColor:"black",paddingVertical:10},viewLengthStyle]}>
     
     {(postList.length>0 && isRotating==false)?(
         <>
-        <ScrollView>
+       
              <TouchableWithoutFeedback onPress={()=>changePage()}>
             <Text style={{alignContent:'center',paddingHorizontal:"5%",paddingTop:"1%",alignSelf:"center"}}>
                 click here know more
             </Text>
             </TouchableWithoutFeedback>
-            
-             {/* <RenderHtml
-                source={{
-                html: postList[0].excerpt.rendered
-                }}
-                tagsStyles={tagsStyles}
-                justifyContent="center"
-                ellipsizeMode='tail' 
-                numberOfLines={2}
-            /> */}
-
-            
+            <ScrollView>     
 
             <Text style={{alignContent:'center',paddingHorizontal:"5%",paddingTop:"1%",color: 'black',
         backgroudColor:'#F2D997',
@@ -141,7 +123,9 @@ return(
            </ScrollView>
             </>
             
-        ):(<Text style={{alignContent:'center',paddingHorizontal:"5%",paddingTop:"1%",color: 'black',
+        ):(
+        <ScrollView>
+        <Text style={{alignContent:'center',paddingHorizontal:"5%",paddingTop:"1%",color: 'black',
         backgroudColor:'#F2D997',
         fontSize: 13,
         justifyContent:"center",
@@ -149,7 +133,9 @@ return(
         alignSelf:"center",
        adjustsFontSizeToFit:true}}>
                <Text style={{fontStyle:"normal",fontSize:14, fontWeight:"bold"}}>{postName}</Text>- {excerpt}
-        </Text>)}
+        </Text>
+        </ScrollView>
+        )}
         
     </Animated.View>
     </>

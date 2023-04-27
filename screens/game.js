@@ -64,6 +64,7 @@ const Game= ({navigation}) => {
   const [excerpt,setExcerptState] =useState("Loading....");
   const [postName,setPostName] =useState("..");
   const cellInfo = useRef("Loading please wait...");
+  const [isRotating, setRotation] = useState(true);
 /* Variables for the game  */  
     
   // const position = new Animated.ValueXY({x:0,y:0});
@@ -348,7 +349,11 @@ const stateChangePawn = ()=>
   },[excerpt]);
 
   const diceRoll=()=>{
-    // alert("jkh")
+    if(!isRotating)
+    {
+      setRotation(!isRotating);
+    }
+
     Animated.timing(
       diceSpinValue,
     {
@@ -358,7 +363,7 @@ const stateChangePawn = ()=>
       useNativeDriver: true  // To make use of native driver for performance
     }
   ).start(()=>{
-
+    
     dice.current.iDiceRollCount++;
 
 
@@ -654,7 +659,7 @@ const getPosts=(e)=>{
           onActivated={(e) => (
               getPosts(e)
         )}>
-          <Image source={require('../assets/game/board.jpg')} style={{width:380,height:380,backgroundColor: '#fff'}} />
+          <Image source={require('../assets/game/board.jpg')} style={{width:380,height:380,backgroundColor: '#fff',zIndex:-1}} />
         </TapGestureHandler>
          </View>
         </Pinchable>
@@ -666,8 +671,8 @@ const getPosts=(e)=>{
       justifyContent:'center',
       width:40,
       height:40,
-      bottom:46,
-      left:28,
+      bottom:49,
+      left:35,
       transform:[{
         translateX:position.x
       },{translateY:position.y}]
@@ -695,7 +700,7 @@ const getPosts=(e)=>{
     
     }}>
       
-      <TouchableOpacity onPress={() => diceRoll()} style={{justifyContent:'center', alignItems:'center',zIndex:-1}}>
+      <TouchableOpacity onPress={() => {diceRoll()}} style={{justifyContent:'center', alignItems:'center',zIndex:-1}}>
       
       <Animated.Image ref={diceFaceFrame} source={diceFace} 
       style={{width:"80%",height:"100%"}}
@@ -714,8 +719,8 @@ const getPosts=(e)=>{
     </Animated.View>
  
    </View>
-   <View style={{ marginTop:'0%',width:"100%", height:"10%",justifyContent:'flex-end',backgroundColor:"#cfc19f"}} >
-   <BlockInformation ref={cellInfo} excerpt={excerpt} postName={postName} postId={postIdCellMovement.current} navigation={navigation} />        
+   <View style={{ marginTop:'0%',width:"100%", height:"15%",justifyContent:'flex-end',backgroundColor:"#cfc19f"}} >
+   <BlockInformation setrotation={(e)=>setRotation(e)}rotation={isRotating} excerpt={excerpt} postName={postName} postId={postIdCellMovement.current} navigation={navigation} />        
    </View>
   
    </SafeAreaView>
