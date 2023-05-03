@@ -6,7 +6,8 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React,{useEffect} from 'react';
+import './globalVariables';
 import { Image } from 'react-native';
  import Game from "./screens/game";
  import Login from "./screens/login";
@@ -24,8 +25,43 @@ import Aboutus from './screens/aboutus';
 import Shop from './screens/shop';
  import Setting from './screens/setting';
 import Language from './components/language';
-
+import {NativeModules, Platform } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const App = (props)=> {
+
+  useEffect(() => {
+    fetchAppLang();
+  },[]);
+
+
+  const fetchAppLang = async () => {
+  const locale = Platform.select({
+    ios: NativeModules.SettingsManager?.settings?.AppleLocale || NativeModules.SettingsManager?.settings?.AppleLanguages[0],
+    android: NativeModules.I18nManager.localeIdentifier,
+  });
+  if(locale.includes('en'))
+    {
+      await AsyncStorage.setItem("postUrl", "https://buddhiyoga.in/site/en/wp-json/wp/v2/posts/");
+      await AsyncStorage.setItem("gameBoard", 'en'); 
+      global.config.GL_LANG_CODE='en';
+      global.config.POST_URL="https://buddhiyoga.in/site/en/wp-json/wp/v2/posts/";
+    }
+    else if(locale.includes('or'))
+    {
+      await AsyncStorage.setItem("postUrl", "https://buddhiyoga.in/site/or/wp-json/wp/v2/posts/");
+      await AsyncStorage.setItem("gameBoard", 'or');
+      global.config.GL_LANG_CODE='or';
+      global.config.POST_URL="https://buddhiyoga.in/site/or/wp-json/wp/v2/posts/";
+    }
+    else
+    {
+      await AsyncStorage.setItem("postUrl", "https://buddhiyoga.in/site/en/wp-json/wp/v2/posts/");
+      await AsyncStorage.setItem("gameBoard", 'en'); 
+      global.config.GL_LANG_CODE='en';
+      global.config.POST_URL="https://buddhiyoga.in/site/en/wp-json/wp/v2/posts/";
+    }
+  }
+
   const Stack = createNativeStackNavigator();
   const Drawer = createDrawerNavigator();
     

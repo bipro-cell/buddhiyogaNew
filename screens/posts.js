@@ -15,7 +15,7 @@ import PostsContentComponent from '../components/PostsContentComponent';
 import {WP_URL_POST}  from '@env';
 import Postsheader from '../components/postsheader';
 import PostBottomSticky from '../components/postBottomStickyTab';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Posts= (props,{navigation}) => {
   console.log(props)
@@ -44,10 +44,15 @@ const Posts= (props,{navigation}) => {
       
     
     async function getPosts() {
+      var lang_url=await AsyncStorage.getItem('postUrl');
+      if(lang_url===null)
+      {
+          lang_url=WP_URL_POST;
+      }
         try {
         // console.log(WP_URL_POST+''+postId);
         let response = await fetch(
-            WP_URL_POST+''+postId,
+          lang_url+''+postId,
         );
         let responseJson = await response.json();
         postlist=responseJson;
@@ -135,7 +140,7 @@ const Posts= (props,{navigation}) => {
     return (<>
     <SafeAreaView style={styles.cardViewOverAll}>
             <View style={{backgroundColor:"#cfc19f"}}>
-              <Postsheader navigation={props.navigation} increaseFont={increaseSize} decreaseFont={decreaseFont} postID={postId}/>
+              <Postsheader navigation={props.navigation}/>
               {/* <FloatingFont increaseFont={increaseSize} decreaseFont={decreaseFont} sharePost={sharePost} postID={postId} /> */}
               <PostBottomSticky increaseFont={increaseSize} decreaseFont={decreaseFont} postShare={sharePost} postComment={postComment}/>
               

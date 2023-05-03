@@ -12,7 +12,7 @@ import {
   SafeAreaView,
   Dimensions
 } from 'react-native';
-
+import {WP_URL_POST,LANG_CODE}  from '@env';
 import { TouchableOpacity } from 'react-native';
 import BlockInformation from '../components/blockInformation';
 import PinchZoomView from 'react-native-pinch-zoom-view';
@@ -24,8 +24,8 @@ import {
 } from 'react-native-gesture-handler';
 import {useAnimatedGestureHandler} from 'react-native-reanimated';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-// import { Link } from '@react-navigation/native';
 import '../globalVariables';
+// import { Link } from '@react-navigation/native';
 
 import Dice1 from "../assets/game/dice/dice1.png";
 import Dice2 from "../assets/game/dice/dice2.png";
@@ -43,7 +43,12 @@ import Dice12 from "../assets/game/dice/dice12.png";
 import Hamburger from '../components/hamburger';
 
 const Game= ({navigation}) => {
-  
+  console.log(global.config.GL_LANG_CODE);
+//   useEffect(()=>{
+// console.log("HELLO_WORLD");
+//   });
+// console.log(LANG_CODE)
+
   const postIdCurrent =useRef(551);
   const postIdCellMovement=useRef(551);
   const diceFaceFrame = useRef(null);
@@ -55,7 +60,29 @@ const Game= ({navigation}) => {
   const playerPositionX=useRef(0);
   const playerPositionY=useRef(0);
   const { width, height } = Dimensions.get('window');
+  const {gameBoard,setGameBoard}= useState(AsyncStorage.getItem('gameBoard'));
+  const {postUrl,setpostUrl}= useState("");
 
+// useEffect(()=>{
+//   console.log(gameBoard)
+// async function storeData(){
+//   let url= await AsyncStorage.getItem('postUrl');
+//   let board=await AsyncStorage.getItem('gameBoard');
+//   console.log(board);
+//   if(url === null && board === null)
+//   {
+//     setGameBoard("en");
+//     setpostUrl('https://buddhiyoga.in/site/en/wp-json/wp/v2/posts/');
+//   }
+//   else{
+//     setGameBoard(board);
+//     setpostUrl(url);
+//   }
+//   return true;
+// }
+
+
+// })
 
   const[pinchState,setPinchState]=useState(false);
 
@@ -339,9 +366,7 @@ const stateChangePawn = ()=>
 }
 
   useEffect(()=>{
-    
       initializePawn();
-
   },[gameState]);
 
   useEffect(()=>{
@@ -648,26 +673,25 @@ const getPosts=(e)=>{
     <SafeAreaView style={{backgroundColor:"#cfc19f", width: width,height: height,flex: 1, flexDirection: "column",justifyContent: 'space-between'}}>
     <Hamburger navigation={navigation} resetFunction={resetGame} infoFunction={about} style={styles.hamburgerPosition} />
 
-    <View style={[{flex:1,
-    width: width, alignItems: 'center', flexDirection: 'row',justifyContent: 'center'},styles.container]} >
+    <View style={styles.container} >
     
     <Animated.View style={styles.gameContainer}>
-      <View>
         <GestureHandlerRootView>
           <Pinchable>
-        <View style={{width:380}}>
+        <View style={{flex:1,width:width,justifyContent: "center", alignItems: "center",flexDirection: "row"}}>
           {/* <View> */}
         <TapGestureHandler
           numberOfTaps={2}
           onActivated={(e) => (
               getPosts(e)
         )}>
-         {
+          {
             global.config.GL_LANG_CODE==="en" && 
             <Image source={require('../assets/game/board.jpg')} style={{width:380,height:380,backgroundColor: '#fff',zIndex:-1}} />
             || 
             <Image source={require('../assets/game/boardOdia.jpg')} style={{width:380,height:380,backgroundColor: '#fff',zIndex:-1}} />
           }
+          
         </TapGestureHandler>
          </View>
         </Pinchable>
@@ -679,18 +703,14 @@ const getPosts=(e)=>{
       justifyContent:'center',
       width:40,
       height:40,
-
-      bottom:46,
-      left:28,
-
+      bottom:49,
+      left:35,
       transform:[{
         translateX:position.x
       },{translateY:position.y}]
       }} >
         <Image source={require('../assets/game/token4.png')} style={{width:40,height:40}}  />
-      </Animated.View>
-      ):(<View></View>)}
-      </View>
+      </Animated.View>):(<View></View>)}
       <View style={{
       // position:'absolute',
       flex:1,
@@ -742,16 +762,20 @@ const getPosts=(e)=>{
 
 const styles = StyleSheet.create({
   container:{
-    
+    flex:1,
+    alignContent:'center',
+    justifyContent:'space-around',
+    // alignItems: 'center',
+    // flexDirection: 'column',
     position:'absolute',
-    marginTop:'25%',
+    marginTop:'15%',
     zIndex:1
     
   },
   gameContainer:{
-    // alignContent:'center',
-    justifyContent:'center',
-    alignItems: "center",
+    alignContent:'center',
+    // justifyContent:'center',
+    // alignItems: "center";
     width:"100%",
     height:"80%",
     marginHorizontal:"0%",

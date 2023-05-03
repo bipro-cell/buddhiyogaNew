@@ -1,8 +1,8 @@
 import React,{useState,useEffect} from "react";
-import { Animated,Text, TouchableWithoutFeedback ,Easing,ScrollView,Image,View} from "react-native";
+import { Animated,Text, TouchableWithoutFeedback ,Easing,ScrollView,Image} from "react-native";
 import {WP_URL_POST}  from '@env';
 
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const BlockInformation = ({setrotation,rotation,excerpt,postName,postId,navigation}) => {
    
     const [isRotating, setRotation] = useState(true);
@@ -35,9 +35,15 @@ const BlockInformation = ({setrotation,rotation,excerpt,postName,postId,navigati
 }
 
     async function getPosts() {
+        var lang_url=await AsyncStorage.getItem('postUrl');
+        if(lang_url===null)
+        {
+            lang_url=WP_URL_POST;
+        }
         try {
+            console.log(lang_url+''+postId);
         let response = await fetch(
-            WP_URL_POST+''+postId,
+            lang_url+''+postId,
         );
         let responseJson = await response.json();
         postlist=responseJson;
@@ -89,21 +95,17 @@ const BlockInformation = ({setrotation,rotation,excerpt,postName,postId,navigati
 return(
     <>
     <TouchableWithoutFeedback onPress={()=>checkOnPress()}> 
-
-<View style={{ backgroundColor: '#594039',padding: 8,width: 36, elevation: 5, alignSelf: 'flex-end'}}>
-   
-
     {
         isRotating==true &&
-        <Image source={require('../assets/other/up.png')} style={{width:20,height:15,zIndex: 1, top:0}}/>
+        <Image source={require('../assets/other/up.png')} style={{width:35,height:35,zIndex: 1, top:10}}/>
         ||
-        <Image source={require('../assets/other/down.png')} style={{width:20,height:15,zIndex: 1, top:0}}/>
+        <Image source={require('../assets/other/down.png')} style={{width:35,height:35,zIndex: 1, top:10}}/>
     }
-    </View>
+
 
     </TouchableWithoutFeedback>
         
-    <Animated.View style={[{width:"100%", backgroundColor:"#b79972",borderTopLeftRadius: 15,borderTopRightRadius: 0,borderColor:"black",paddingVertical:10},viewLengthStyle]}>
+    <Animated.View style={[{width:"100%", backgroundColor:"#b79972",borderTopLeftRadius: 15,borderTopRightRadius: 15,borderColor:"black",paddingVertical:10},viewLengthStyle]}>
     
     {(postList.length>0 && isRotating==false)?(
         <>

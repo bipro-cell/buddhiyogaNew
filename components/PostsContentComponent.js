@@ -9,9 +9,10 @@ const PostsContentComponent = (prop) => {
 		 getHtml();
 	},[source.html.length]);
 	const getHtml=()=>{
-		var str="<hr/><p><strong>Audio</strong></p>";
-		var excerpt="<p><strong>Excerpt</strong></p>"+prop.subTitle+str;
+		var str="<p><strong>Audio</strong></p>";
+		var excerpt="<hr/><p><strong>Excerpt</strong></p>"+prop.subTitle+"<hr/>"+str;
 		var newStr= prop.content.split(str);
+		// console.log(newStr);
 		setNewHtml({html:newStr[0]+excerpt+newStr[1]});
 	}
   const tagsStyles = {
