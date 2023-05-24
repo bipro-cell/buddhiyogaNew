@@ -330,6 +330,9 @@ const stateChangePawn = ()=>
   var data=playerPositions[positionConfig.initCellPos].info.name;
   // cellInfo.current.setNativeProps({text:data});
   // console.log("data"+data);
+
+
+  
   cellInfo.current=data;  
     Animated.timing(position,{
       toValue:{x:playerPositionX.current,y:playerPositionY.current},
