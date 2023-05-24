@@ -162,6 +162,7 @@ const getData = async (key) => {
 
 
   }
+  var playerMove=[];
   const iDisplacement = useRef(0);
   const iSnakeLadderBase = useRef(0);
   const iOld_state = useRef(0);
@@ -201,7 +202,8 @@ const player = useRef({
 const dice=useRef({iDiceFace: 0,
   iDiceRollCount: 0,
   iDiceCurrentRoll: 0,
-  ispinValue:1})
+  ispinValue:1,
+  currentRoll:0})
 //End of Dice Variable
 
 function changePage ()
@@ -277,6 +279,7 @@ const initializePawn = ()=>
     
       if(data=='null' || data==null || data==undefined )
       {
+        // console.log("Non Saved")
         dice.current=initialStates.dice;
         iDisplacement.current=initialStates.iDisplacement;
         iSnakeLadderBase.current = initialStates.iSnakeLadderBase;
@@ -299,6 +302,7 @@ const initializePawn = ()=>
       }
       else
       {
+        // console.log("Saved Data")
         let savedData=JSON.parse(data);
         dice.current=savedData.dice;
         iDisplacement.current=savedData.iDisplacement;
@@ -318,8 +322,20 @@ const initializePawn = ()=>
             }).start();
             setExcerptState(playerPositions[player.current.position].info.quote[0].name);
             setPostName(playerPositions[player.current.position].info.name);
-            setDiceFace(savedData.diceFace);
+             console.log("Dice Roll :: "+dice.current.currentRoll);
+             console.log("Dice Face :: "+ savedData.diceFace);
+            if(savedData.diceFace==7 || savedData.diceFace==8)
+            {
+              // console.log(dice.current.iDiceFace);
+              setDiceFace(diceImage[dice.current.currentRoll].imageurl);
+            }
+            else
+            {
+              console.log("Here")
+              setDiceFace(diceImage[6].imageurl);
+            }
       }
+      
   });
  
   
@@ -375,7 +391,7 @@ const stateChangePawn = ()=>
     
     if(iSnakeLadderBase.current==0)
     {
-      
+      dice.current.currentRoll=dice.current.iDiceCurrentRoll-1;
       setDiceFace(diceImage[dice.current.iDiceCurrentRoll-1].imageurl)
       
     }
@@ -465,18 +481,19 @@ const stateChangePawn = ()=>
     
     if(iSnakeLadderBase.current>0)
     {
-    
+      // console.log("Now State");
       setDiceFace(diceImage[8].imageurl)
       
     }
     else if(iSnakeLadderBase.current < 0)
     {
-      
+      // console.log("This state");
       setDiceFace(diceImage[7].imageurl)
       
     }
     else
     {
+      // console.log("That State");
       setDiceFace(diceImage[6].imageurl)
       
     }
@@ -547,6 +564,7 @@ const stateChangePawn = ()=>
   const saveStatesFunc =()=>{
 
     saveStates.dice=dice.current;
+    // console.log(dice.current);
       saveStates.player=player.current;
       saveStates.iCurrent_state=iCurrent_state.current;
       saveStates.iDisplacement=iDisplacement.current;
@@ -556,7 +574,10 @@ const stateChangePawn = ()=>
       saveStates.iRoll=iRoll.current;
       saveStates.iSnakeLadderBase=iSnakeLadderBase.current;
       saveStates.diceFace=diceFace;
+      // console.log(diceFace);
       storeData('@saveSate',saveStates);
+      playerMove.push(saveStates);
+      storeData('@playerMove',playerMove);
 
   };
   
