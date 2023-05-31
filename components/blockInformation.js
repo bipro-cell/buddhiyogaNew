@@ -37,7 +37,7 @@ const BlockInformation = ({setrotation,rotation,excerpt,postName,postId,navigati
     async function getPosts() {
         try {
         let response = await fetch(
-            global.config.POST_URL+''+postId,
+            global.config.POST_URL+''+postId
         );
         let responseJson = await response.json();
         postlist=responseJson;

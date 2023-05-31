@@ -626,7 +626,9 @@ const getPosts=(e)=>{
     alert("about game");
 
   }
-
+const ChatGPT=()=>{
+  navigation.navigate('ChatGPT')
+}
   
   
 
@@ -749,9 +751,14 @@ const getPosts=(e)=>{
       </View>
 
     </Animated.View>
- 
+    
    </View>
    <View style={{ marginTop:'0%',width:"100%", height:"15%",justifyContent:'flex-end',backgroundColor:"#cfc19f"}} >
+    <View style={{justifyContent: 'center', flexDirection: 'row'}} >
+    <TouchableOpacity onPress={() => {ChatGPT()}} style={{justifyContent: 'center',backgroundColor: "rgba(88, 44, 36,1)", paddingHorizontal: 15, paddingVertical: 10, borderRadius: 20,width: '22%'}}>
+      <Text style={{textAlign: 'center'}}>ChatGPT</Text>
+      </TouchableOpacity>
+    </View>
    <BlockInformation setrotation={(e)=>setRotation(e)}rotation={isRotating} excerpt={excerpt} postName={postName} postId={postIdCellMovement.current} navigation={navigation} />        
    </View>
   

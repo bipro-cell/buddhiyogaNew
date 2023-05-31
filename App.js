@@ -27,6 +27,7 @@ import Shop from './screens/shop';
 import Language from './components/language';
 import {NativeModules, Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import chatGPT from './components/ChatGPT';
 const App = (props)=> {
 
   useEffect(() => {
@@ -135,6 +136,7 @@ const App = (props)=> {
         />
         <Stack.Screen name="Game" component={DrawerRoutes} />
         <Stack.Screen name="Posts" component={Posts} />
+        <Stack.Screen name="ChatGPT" component={chatGPT}/>
         <Stack.Screen name="Comment" component={Comment} />
         <Stack.Screen name="Share" component={Share} />
         <Stack.Screen name="Language" component={Language} />
