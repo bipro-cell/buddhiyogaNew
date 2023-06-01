@@ -667,7 +667,7 @@ const ChatGPT=()=>{
   return (
     <>
     <SafeAreaView style={{backgroundColor:"#cfc19f", width: width,height: height,flex: 1, flexDirection: "column",justifyContent: 'space-between'}}>
-    <Hamburger navigation={navigation} resetFunction={resetGame} infoFunction={about} style={styles.hamburgerPosition} />
+    <Hamburger navigation={navigation} resetFunction={resetGame} infoFunction={about} resetStatus={true} />
 
     <View style={[{flex:1,
     width: width, alignItems: 'center', flexDirection: 'row',justifyContent: 'center'},styles.container]} >
@@ -737,7 +737,7 @@ const ChatGPT=()=>{
       <TouchableOpacity onPress={() => {diceRoll()}} style={{justifyContent:'center', alignItems:'center',zIndex:-1}}>
       
       <Animated.Image ref={diceFaceFrame} source={diceFace} 
-      style={{width:"80%",height:"100%"}}
+      style={{width:"95%",height:"100%"}}
       resizeMode="contain"
       />
       

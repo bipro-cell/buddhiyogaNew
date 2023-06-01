@@ -40,14 +40,16 @@ const App = (props)=> {
     ios: NativeModules.SettingsManager?.settings?.AppleLocale || NativeModules.SettingsManager?.settings?.AppleLanguages[0],
     android: NativeModules.I18nManager.localeIdentifier,
   });
-  if(locale.includes('en'))
-    {
-      await AsyncStorage.setItem("postUrl", "https://buddhiyoga.in/site/en/wp-json/wp/v2/posts/");
-      await AsyncStorage.setItem("gameBoard", 'en'); 
-      global.config.GL_LANG_CODE='en';
-      global.config.POST_URL="https://buddhiyoga.in/site/en/wp-json/wp/v2/posts/";
-    }
-    else if(locale.includes('or'))
+  console.log(locale);
+  // if(locale.includes('en'))
+  //   {
+  //     await AsyncStorage.setItem("postUrl", "https://buddhiyoga.in/site/en/wp-json/wp/v2/posts/");
+  //     await AsyncStorage.setItem("gameBoard", 'en'); 
+  //     global.config.GL_LANG_CODE='en';
+  //     global.config.POST_URL="https://buddhiyoga.in/site/en/wp-json/wp/v2/posts/";
+  //   }
+  //   else 
+    if(locale.includes('or'))
     {
       await AsyncStorage.setItem("postUrl", "https://buddhiyoga.in/site/or/wp-json/wp/v2/posts/");
       await AsyncStorage.setItem("gameBoard", 'or');

@@ -139,7 +139,7 @@ const Posts= (props,{navigation}) => {
 
     return (<>
     <SafeAreaView style={styles.cardViewOverAll}>
-            <View style={{backgroundColor:"#cfc19f"}}>
+            <View style={{backgroundColor:"#cfc19f", position: 'relative'}}>
               <Postsheader navigation={props.navigation}/>
               {/* <FloatingFont increaseFont={increaseSize} decreaseFont={decreaseFont} sharePost={sharePost} postID={postId} /> */}
               <PostBottomSticky increaseFont={increaseSize} decreaseFont={decreaseFont} postShare={sharePost} postComment={postComment}/>

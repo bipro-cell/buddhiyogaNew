@@ -15,7 +15,7 @@ function Shop({navigation}) {
     return ( 
         <>
         <SafeAreaView>
-        <Hamburger navigation={navigation} resetFunction={resetGame} infoFunction={about}/>
+        <Hamburger navigation={navigation} resetFunction={resetGame} resetStatus={false} infoFunction={about}/>
         <View style={styles.mains}>
         <TouchableWithoutFeedback onPress={()=>{Linking.openURL(SHOP_URL)}}>
            <Text style={{fontStyle:"normal",fontWeight:"bold",fontSize:17,marginTop:"90%", marginHorizontal:40}}>Click here to visit the SHOP page.</Text>

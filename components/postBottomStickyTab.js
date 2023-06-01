@@ -1,10 +1,12 @@
 import React,{useState,useEffect} from "react";
-import { Animated,View,Text,Image, TouchableWithoutFeedback ,Easing,TouchableOpacity,ScrollView,StyleSheet} from "react-native";
+import { Animated,View,Text,Image, TouchableWithoutFeedback ,StyleSheet,Dimensions} from "react-native";
 
 const PostBottomSticky = ({increaseFont,decreaseFont,postComment,postShare}) =>{
+  const { width, height } = Dimensions.get('window');
+
     return (
         <View style={styles.tabView}>
-            <View style={{flexDirection:"row", alignItems:"center",width:"100%", justifyContent:"space-evenly"}}>
+            <View style={{flexDirection:"row", alignItems:"center",width:"100%", justifyContent:"space-evenly",}}>
             <TouchableWithoutFeedback onPress={(e)=>increaseFont()}>
             <Image  source={require("../assets/other/fontsplus.png")} style={{flex: .35, aspectRatio:2.8,
                  resizeMode:"contain"}} />
@@ -23,24 +25,25 @@ const PostBottomSticky = ({increaseFont,decreaseFont,postComment,postShare}) =>{
             </TouchableWithoutFeedback>
             </View>
         </View>
+
+
     )
 }
 
 const styles = StyleSheet.create({
     tabView:{
-        position: 'absolute',
-        // flex:0.1,
-        left: 0,
-        right: 0,
-        bottom: 52,
+        width:"100%",
+        height: 55,
+        
+        paddingVertical:4,
+        flexDirection:"row",
+        flex: 1,
+        position: "absolute",
+        justifyContent: "center",
+        bottom: 60,
+        zIndex: 1,
         backgroundColor:'#b79972',
-        flexDirection:'row',
-        height:40,
-        shadowColor: '#171717',
-        shadowOffset: {width: 0, height: 3},
-        shadowOpacity: 0.4,
-        shadowRadius: 2,
-        zIndex:1
+
 
     }
 })

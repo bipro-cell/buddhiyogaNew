@@ -20,14 +20,14 @@ const Comment = (props) =>{
             getComment();
         }
         
-    });
+    },[commentArrays.length]);
 
     const getComment =async()=>{
 
         try {
-            // console.log(COMMENT_URL+''+postID);
+            console.log(COMMENT_URL+''+postID);
             let response = await fetch(
-                COMMENT_URL+'?post='+'329',
+                COMMENT_URL+'?post='+postID,
             );
             let responseJson = await response.json();
             var tempJson={};
@@ -63,7 +63,7 @@ const Comment = (props) =>{
           credentials: 'same-origin',
           mode: 'same-origin',
           body: JSON.stringify({
-          post:329,
+          post:postID,
           parent:0,
           author:userStorageData.userID,
           author_name:userStorageData.name,
@@ -114,8 +114,7 @@ const Comment = (props) =>{
 
 
   <View style={{height: '90%',flex: 1, flexDirection: 'column', justifyContent: 'flex-end'}}>
-    <Animated.View
-  >
+    <Animated.View>
     
     <ScrollView style={{marginBottom: 60}}>
             {

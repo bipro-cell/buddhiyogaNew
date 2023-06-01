@@ -27,39 +27,41 @@ useEffect(()=>{
 const checkUserStorage=async()=>{
   
   var userStorageData=await AsyncStorage.getItem('buddhiyogaUserData');
-  if(Object.keys(JSON.parse(userStorageData)).length >0 ||userStorageData != null || userStorageData!=undefined)
+  if(userStorageData!=null || userStorageData!=undefined)
   {
-    setStatus(1);
-    setUserData(userStorageData);
-    userStorageData=JSON.parse(userStorageData);
-    console.log(userStorageData.name)
-    setName(userStorageData.name);
-    setEmail(userStorageData.email)
-    setPassword(userStorageData.password);
-    setPhone(userStorageData.phone);
+    if(Object.keys(JSON.parse(userStorageData)).length >0 )
+    {
+      setStatus(1);
+      setUserData(userStorageData);
+      userStorageData=JSON.parse(userStorageData);
+      console.log(userStorageData.name)
+      setName(userStorageData.name);
+      setEmail(userStorageData.email)
+      setPassword(userStorageData.password);
+      setPhone(userStorageData.phone);
+    }
   }
 }
 
     const submitButonHandler=async()=>{
       setSubmitStatus(true);
        let data = {
-    method: 'POST',
-    credentials: 'same-origin',
-    mode: 'same-origin',
-    body: JSON.stringify({
-    username:name,
-    email:email,
-    // phone:phone,
-    password:password,
-    "roles":["customer"]
-    }),
-    headers: {
-      'Accept':       'application/json',
-      'Content-Type': 'application/json',
-      'Authorization': 'Basic YnVkZGhpeW9nYTpHZEpSIDdYeFUgdHQ5YyBlSFZ2IFZCcnIgVHhEdg=='
-    },
-    
-  };
+          method: 'POST',
+          credentials: 'same-origin',
+          mode: 'same-origin',
+          body: JSON.stringify({
+          username:name,
+          email:email,
+          // phone:phone,
+          password:password,
+          "roles":["customer"]
+          }),
+          headers: {
+            'Accept':       'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': 'Basic YnVkZGhpeW9nYTpHZEpSIDdYeFUgdHQ5YyBlSFZ2IFZCcnIgVHhEdg=='
+          },
+        };
   let response=  await fetch(REGISTER_URL,data)
     .then(response => response.json())  // promise
     .then(async(json) =>{
@@ -84,8 +86,6 @@ const checkUserStorage=async()=>{
       }
      } )
     }
-
-   
     return (
         <>
             <View>
@@ -95,45 +95,42 @@ const checkUserStorage=async()=>{
               {status===1 &&
                 <Text style={styles.headings}>Profile Management</Text>
               }
-
                 <TextInput
-        style={styles.input}
-        autoCapitalize='none'
-        autoCorrect={false}
-        placeholder="Enter Name"
-        value={name}
-        onChangeText={newValue => setName(newValue)}
-      />
+                  style={styles.input}
+                  autoCapitalize='none'
+                  autoCorrect={false}
+                  placeholder="Enter Name"
+                  value={name}
+                  onChangeText={newValue => setName(newValue)}
+                />
                 <TextInput
-        style={styles.input}
-        autoCapitalize='none'
-        autoCorrect={false}
-        placeholder="Enter Email"
-        value={email}
-        onChangeText={newValue => setEmail(newValue)}
-        editable={status==0?true:false}
-      />
-
+                  style={styles.input}
+                  autoCapitalize='none'
+                  autoCorrect={false}
+                  placeholder="Enter Email"
+                  value={email}
+                  onChangeText={newValue => setEmail(newValue)}
+                  editable={status==0?true:false}
+                />
                       <TextInput
-        style={styles.input}
-        autoCapitalize='none'
-        autoCorrect={false}
-        placeholder="Enter Phone"
-        value={phone}
-        onChangeText={newValue => setPhone(newValue)}
-      />
+                    style={styles.input}
+                    autoCapitalize='none'
+                    autoCorrect={false}
+                    placeholder="Enter Phone"
+                    value={phone}
+                    onChangeText={newValue => setPhone(newValue)}
+                  />
                       <TextInput
-        style={styles.input}
-        autoCapitalize='none'
-        autoCorrect={false}
-        placeholder="Enter Password"
-        value={password}
-        onChangeText={newValue => setPassword(newValue)}
-      />
-        
+                    style={styles.input}
+                    autoCapitalize='none'
+                    autoCorrect={false}
+                    placeholder="Enter Password"
+                    value={password}
+                    onChangeText={newValue => setPassword(newValue)}
+                  />
             {
               submitStatus &&
-              <TouchableWithoutFeedback style={{}} disabled>
+              <TouchableWithoutFeedback disabled>
             <View>
             <Text style={styles.btnstext}>Submit</Text>
             <Loader/>
@@ -142,24 +139,19 @@ const checkUserStorage=async()=>{
             }
             {
               !submitStatus &&
-              <TouchableWithoutFeedback style={{}} onPress={()=>submitButonHandler()}>
+              <TouchableWithoutFeedback onPress={()=>submitButonHandler()}>
             <View>
             <Text style={styles.btnstext}>Submit</Text>
             {/* <Loader/> */}
             </View>
             </TouchableWithoutFeedback>
             }
-        
-              
 </View>
         </>
     )
 }
 export default Register;
 
-// const Styles = StyleSheet.create({
-// input:{}
-// });
 const styles = StyleSheet.create({
 	headings :{
 		marginVertical:20,
@@ -181,9 +173,5 @@ const styles = StyleSheet.create({
         marginVertical: 20,
         paddingVertical: 8,
         borderRadius: 10,
-
-
-        // width: 80,
-        // textAlign: 'center'
     }
 })

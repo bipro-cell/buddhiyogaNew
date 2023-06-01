@@ -20,7 +20,7 @@ function Setting({navigation}){
         return(
             <>
             <SafeAreaView>
-            <Hamburger navigation={navigation} resetFunction={resetGame} infoFunction={about}/>
+            <Hamburger navigation={navigation} resetFunction={resetGame} resetStatus={false} infoFunction={about}/>
             <View style={styles.mains}>
                 <View >
                     <TouchableWithoutFeedback onPress={_openAppSetting }>

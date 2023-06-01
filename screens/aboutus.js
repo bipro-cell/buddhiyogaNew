@@ -12,7 +12,7 @@ function Aboutus({navigation}){
     return (
         <>
         <SafeAreaView>
-        <Hamburger navigation={navigation} resetFunction={resetGame} infoFunction={about}/>
+        <Hamburger navigation={navigation} resetFunction={resetGame} resetStatus={false} infoFunction={about}/>
         <View style={{backgroundColor: 'rgba(183,153,114,0.25)',height: '100%'}}>
            <Text>
             About Us

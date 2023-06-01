@@ -2,7 +2,7 @@ import React from "react";
 import { Text, View, Image, TouchableOpacity, TouchableWithoutFeedback } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-function Hamburger({navigation,resetFunction,infoFunction}){
+function Hamburger({navigation,resetFunction,infoFunction,resetStatus}){
 
     return(
         <View style={{borderBottomWidth: 1,borderColor: 'rgba(0,0,0,0.25)',height: "7%",width:"100%",marginVertical:0,paddingVertical:10,flexDirection:"row",backgroundColor:'#D5C0A4'}}>
@@ -15,8 +15,10 @@ function Hamburger({navigation,resetFunction,infoFunction}){
         </View>
             </View>
             <View style={{flexDirection:"row",justifyContent:"space-evenly",width:"15%"}}></View>
+            {
+                resetStatus &&
             
-            <View style={{flexDirection:"row",justifyContent:"space-evenly",width:"35%"}}>
+            <View style={{flexDirection:"row",justifyContent:"space-evenly",width:"35%",alignItems: 'center'}}>
                 {/* info icons */}
                 <TouchableWithoutFeedback onPress={(e)=>{resetFunction(e)}}>
                     <Icon name="rotate-right" size={25} color="#582c24" />
@@ -25,6 +27,7 @@ function Hamburger({navigation,resetFunction,infoFunction}){
                     <Icon name="question" size={25} color="#582c24" />
                 </TouchableWithoutFeedback> */}
             </View>
+            }
         </View>
         
         
